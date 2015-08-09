@@ -1,0 +1,10 @@
+{
+    "name": "memory",
+    "version": "0.0.0",
+    "description": "A memory match game.",
+    "author": "Jamal Rahhali <rahhali@live.com>",
+    "private": true,
+    "dependencies": {
+        "next-event": "file:./../next-event"
+    }
+}
