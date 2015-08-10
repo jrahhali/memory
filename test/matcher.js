@@ -43,7 +43,7 @@ describe("Matcher", function() {
            assert(!eventFired);
        });
 
-       it("should fire a mismatched event if two matchables matched", function() {
+       it("should not fire a mismatched event if two matchables matched", function() {
            var matchable1 = new Matchable("DOG");
            var matchable2 = new Matchable("DOG");
            var eventFired = false;
