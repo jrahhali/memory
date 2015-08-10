@@ -1,9 +1,15 @@
 var assert = require("assert");
 var Matchable = require("./../lib/matchable");
-var matcher = require("./../lib/matcher");
+var Matcher = require("./../lib/matcher");
 
 describe("Matcher", function() {
-   describe("add()", function() {
+    var matcher;
+
+    beforeEach(function() {
+        matcher = new Matcher();
+    });
+
+    describe("add()", function() {
        it("should fire a matched event if two matchables matched", function() {
            var matchable1 = new Matchable("DOG");
            var matchable2 = new Matchable("DOG");
