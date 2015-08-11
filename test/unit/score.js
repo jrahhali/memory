@@ -1,5 +1,5 @@
 var assert = require("assert");
-var Score = require("./../lib/score");
+var Score = require("./../../lib/score");
 
 describe("Score", function() {
     var score;

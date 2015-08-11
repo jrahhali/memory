@@ -1,7 +1,7 @@
 "use strict";
 
 var assert = require("assert");
-var Matchable = require("./../lib/matchable");
+var Matchable = require("./../../lib/matchable");
 
 describe("Matchable", function() {
     var matchable;

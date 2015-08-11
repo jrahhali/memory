@@ -1,5 +1,5 @@
 var assert = require("assert");
-var MatchableCollection = require("./../lib/matchable-collection");
+var MatchableCollection = require("./../../lib/matchable-collection");
 
 function MatchableStub() {
     this.state = "";

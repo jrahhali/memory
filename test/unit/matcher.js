@@ -1,5 +1,5 @@
 var assert = require("assert");
-var Matcher = require("./../lib/matcher");
+var Matcher = require("./../../lib/matcher");
 
 var alwaysMatchesMatchable = {
     matches: function() { return true; }
