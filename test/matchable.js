@@ -1,146 +1,141 @@
-//"use strict";
-//
-//var assert = require("assert");
-//var Matchable = require("./../lib/matchable");
-//
-//describe("Matchable", function() {
-//    var matchable;
-//
-//    beforeEach(function() {
-//        matchable = new Matchable(0);
-//    });
-//
-//    describe("hide()", function() {
-//        it("should fire a hidden event", function() {
-//            var eventFired = false;
-//            matchable.hidden.add(function() { eventFired = true; });
-//            matchable.reveal();
-//            matchable.hide();
-//            assert(eventFired);
-//        });
-//
-//        it("should throw an error if you try to call hide() again", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.hide();
-//                matchable.hide();
-//                assert(false);
-//            }
-//            catch(err) {
-//                assert(true);
-//            }
-//        });
-//
-//        it("should throw an error if you try to call match()", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.hide();
-//                matchable.match();
-//                assert(false);
-//            }
-//            catch(err) {
-//                assert(true);
-//            }
-//        });
-//
-//        it("should not throw an error when you call reveal()", function() {
-//            try {
-//                matchable.reveal();
-//                assert(true);
-//            }
-//            catch(err) {
-//                assert(false);
-//            }
-//        });
-//    });
-//
-//    describe("reveal()", function() {
-//        it("should fire a revealed event", function() {
-//            var eventFired = false;
-//            matchable.revealed.add(function() {
-//                eventFired = true;
-//            });
-//            matchable.reveal();
-//            assert(eventFired);
-//        });
-//
-//        it("should throw an error if you try to call reveal() again", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.reveal();
-//                assert(false);
-//            }
-//            catch(err) {
-//                assert(true);
-//            }
-//        });
-//
-//        it("should not throw an error when you call hide()", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.hide();
-//                assert(true);
-//            }
-//            catch(err) {
-//                assert(false);
-//            }
-//        });
-//
-//        it("should not throw an error when you call match()", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.match();
-//                assert(true);
-//            }
-//            catch(err) {
-//                assert(false);
-//            }
-//        });
-//    });
-//
-//    describe("match()", function() {
-//        it("should fire a matched event", function() {
-//            var eventFired = false;
-//            matchable.matched.add(function() { eventFired = true; });
-//            matchable.reveal();
-//            matchable.match();
-//            assert(eventFired);
-//        });
-//
-//        it("should throw an error if you try to call match() again", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.match();
-//                matchable.match();
-//                assert(false);
-//            }
-//            catch(err) {
-//                assert(true);
-//            }
-//        });
-//
-//        it("should throw an error if you try to call hide()", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.match();
-//                matchable.hide();
-//                assert(false);
-//            }
-//            catch(err) {
-//                assert(true);
-//            }
-//        });
-//
-//        it("should throw an error if you try to call reveal()", function() {
-//            try {
-//                matchable.reveal();
-//                matchable.match();
-//                matchable.reveal();
-//                assert(false);
-//            }
-//            catch(err) {
-//                assert(true);
-//            }
-//        });
-//    });
-//});
+"use strict";
+
+var assert = require("assert");
+var Matchable = require("./../lib/matchable");
+
+describe("Matchable", function() {
+    var matchable;
+
+    beforeEach(function() {
+        matchable = new Matchable(0);
+    });
+
+    describe("hide()", function() {
+        it("should not be callable from a hidden state", function() {
+            var matchable = new Matchable(0, Matchable.HIDDEN);
+            try {
+                matchable.hide();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should not be callable from a matched state", function() {
+            var matchable = new Matchable(0, Matchable.MATCHED);
+            try {
+                matchable.hide();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should be callable from a revealed state", function() {
+            var matchable = new Matchable(0, Matchable.REVEALED);
+            try {
+                matchable.hide();
+                assert(true);
+            }
+            catch (err) {
+                assert(false);
+            }
+        });
+
+        it("should fire an onHidden event", function() {
+            var eventFired = false;
+            var matchable = new Matchable(0, Matchable.REVEALED);
+            matchable.onHidden.addListener(function() { eventFired = true; });
+            matchable.hide();
+            assert(eventFired);
+        });
+    });
+
+    describe("reveal()", function() {
+        it("should not be callable from a revealed state", function() {
+            var matchable = new Matchable(0, Matchable.REVEALED);
+            try {
+                matchable.reveal();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should not be callable from a matched state", function() {
+            var matchable = new Matchable(0, Matchable.MATCHED);
+            try {
+                matchable.reveal();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should be callable from a hidden state", function() {
+            var matchable = new Matchable(0, Matchable.HIDDEN);
+            try {
+                matchable.reveal();
+                assert(true);
+            }
+            catch (err) {
+                assert(false);
+            }
+        });
+
+        it("should fire an onRevealed event", function() {
+            var eventFired = false;
+            var matchable = new Matchable(0, Matchable.HIDDEN);
+            matchable.onRevealed.addListener(function() { eventFired = true; });
+            matchable.reveal();
+            assert(eventFired);
+        });
+    });
+
+    describe("match()", function() {
+        it("should not be callable from a hidden state", function() {
+            var matchable = new Matchable(0, Matchable.HIDDEN);
+            try {
+                matchable.match();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should not be callable from a revealed state", function() {
+            var matchable = new Matchable(0, Matchable.REVEALED);
+            try {
+                matchable.match();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should not be callable from a matched state", function() {
+            var matchable = new Matchable(0, Matchable.MATCHED);
+            try {
+                matchable.match();
+                assert(false);
+            }
+            catch (err) {
+                assert(true);
+            }
+        });
+
+        it("should fire an onMatched event", function() {
+            var eventFired = false;
+            var matchable = new Matchable(0, Matchable.REVEALED);
+            matchable.onMatched.addListener(function() { eventFired = true; });
+            matchable.match();
+            assert(eventFired);
+        });
+    });
+});
