@@ -31,12 +31,10 @@ GameFactory.prototype.create = function(size) {
         matchable.revealed.add(game.matcher.add, game.matcher);
     });
 
-    game.matcher.matchMade.add(function(matchable1, matchable2) {
-        matchable1.hide();
-        matchable2.hide();
-    });
+    game.matcher.matchMade.add(game.collection.match, game.collection);
     game.matcher.matchMade.add(game.score.increase, game.score);
-    game.matcher.matchMade.add(game.collection.increaseMatchCount, game.collection);
+
+    game.matcher.mismatched.add(game.collection.hide, game.collection);
 
     game.collection.allMatchesMade.add(game.gameOver, game);
 
