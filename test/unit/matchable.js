@@ -138,4 +138,8 @@ describe("Matchable", function() {
             assert(eventFired);
         });
     });
+
+    describe("matches()", function() {
+        assert(false);
+    });
 });
